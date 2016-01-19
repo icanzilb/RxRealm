@@ -97,7 +97,7 @@ public extension Realm {
   - returns: An Observable of Void type
   */
     private static func realmWriteOperationObservable(thread thread: RealmThread, writeOperation: Bool, operation: OperationClosure) -> Observable<Void> {
-        return RxSwift.create { observer -> Disposable in
+        return Observable.create { observer -> Disposable in
             Realm.realmOperationInThread(thread, writeOperation: writeOperation, completion: { error in
                 if let error = error {
                     observer.onError(error)
@@ -227,7 +227,7 @@ public extension Realm {
   - returns: Observable containing Results for the Type
   */
     static func rx_objects<T: Object>(type: T.Type) -> Observable<RealmSwift.Results<T>> {
-        return RxSwift.create { observer in
+        return Observable.create { observer in
             if !NSThread.isMainThread() {
                 observer.onError(RealmError.InvalidReadThread)
             }
@@ -254,7 +254,7 @@ public extension Realm {
    - returns: Observable containing the object associated with `key`
    */
     static func rx_objectForPrimaryKey<T: Object>(type: T.Type, key: AnyObject) -> Observable<T?> {
-        return RxSwift.create { observer in
+        return Observable.create { observer in
             if !NSThread.isMainThread() {
                 observer.onError(RealmError.InvalidReadThread)
             }
